@@ -101,7 +101,7 @@ response.column_values(column_num) # just one column of the response
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/olap-xmla/fork )
+1. Fork it ( https://github.com/Wondersoft/olap-xmla/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
