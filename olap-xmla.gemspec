@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Olap::Xmla::VERSION
   spec.authors       = ["studnev"]
   spec.email         = ["aleksey@wondersoft.ru"]
-  spec.summary       = %q{Pure Ruby gem to make MDX queries on OLAP databases using XMLA connection}
-  spec.description   = %q{Can be used with any XMLA-compliant server, like Olaper or Mondrian.}
+  spec.summary       = %q{OLAP XMLA gem}
+  spec.description   = %q{Pure Ruby gem to make MDX queries on OLAP databases using XMLA connection. Can be used with any XMLA-compliant server, like Olaper or Mondrian.}
   spec.homepage      = "https://github.com/Wondersoft/olap-xmla"
   spec.license       = "MIT"
 
