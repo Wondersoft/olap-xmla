@@ -6,10 +6,10 @@ require 'olap/xmla/version'
 Gem::Specification.new do |spec|
   spec.name          = "olap-xmla"
   spec.version       = Olap::Xmla::VERSION
-  spec.authors       = ["astudnev"]
+  spec.authors       = ["studnev"]
   spec.email         = ["aleksey@wondersoft.ru"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Pure Ruby gem to make MDX queries on OLAP databases using XMLA connection}
+  spec.description   = %q{Can be used with any XMLA-compliant server, like Olaper or Mondrian.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -20,4 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rspec"
+  spec.add_runtime_dependency 'savon', '~> 2.8.0'
+  spec.add_runtime_dependency 'rubyntlm', '~> 0.3.2'
 end

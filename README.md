@@ -1,6 +1,8 @@
 # Olap::Xmla
 
-TODO: Write a gem description
+The gem connects to OLAP database using XMLA interface and executes MDX queries.
+
+Can be used in Ruby or Rails applications to display and analyse data from OLAP databases.
 
 ## Installation
 
@@ -20,7 +22,66 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    Using the gem is very simple, only basic knowledge on OLAP is required.
+
+### Connecting to server
+
+  To use the gem, you need to know the connection requisites to connect to XMLA server:
+
+  1. Server URL ( typically, http: or https: URL )
+  2. Datasource and catalog names. You can check them in your XMLA server configuration
+
+  Connecting to the server and executing MDX are straightforward:
+
+  require 'olap/xmla'
+
+  client = Olap::Xmla.client({
+            server: 'http://your-olap-server',
+            datasource: 'your-datasource',
+            catalog: 'your-catalog'})
+  response = client.request 'your-mdx-here'
+
+### Configuration in Rails
+
+  If you are using this gem in Rails application, which uses just single OLAP data source,
+  you can simplify the code by pre-configuring the XMLA connection.
+
+  Create a file olap.rb in config/initializers directory with the following content:
+
+  Olap::Xmla.default_options= { server: 'http://your-olap-server',
+                                datasource: 'your-datasource',
+                                catalog: 'your-catalog'}
+
+  Then in Rails application code you can simply do:
+
+  response = Olap::Xmla.client.request 'your-mdx-here'
+
+### Querying MDX
+
+  The gem does not parse MDX, just passes it to XMLA server.
+
+  However, it can do substituting parameters in the query:
+
+  MDX_QUERY = 'SET [~ROWS_Date] AS {[DateTime].[Date].[Date].[%DATE%]}'
+
+  Olap::Xmla.client.request MDX_QUERY, {'%DATE%' => '20150530'}
+
+  This allows to store MDX queries in constants, while execute them with dynamic parameters.
+  Note, that you should never use these parameters directly from Rails request, as
+  this may create security breach!
+
+### Using response on Query
+
+
+  You may use the response to render the results to user, or post-process it to analyse the data
+  The following methods can be used to request the meta-data and data from the response:
+
+  response = client.request(mdx)
+
+
+
+
+
 
 ## Contributing
 
