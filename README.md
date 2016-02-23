@@ -22,66 +22,82 @@ Or install it yourself as:
 
 ## Usage
 
-    Using the gem is very simple, only basic knowledge on OLAP is required.
+Using the gem is very simple, only basic knowledge on OLAP is required.
 
 ### Connecting to server
 
-  To use the gem, you need to know the connection requisites to connect to XMLA server:
+To use the gem, you need to know the connection requisites to connect to XMLA server:
 
-  1. Server URL ( typically, http: or https: URL )
-  2. Datasource and catalog names. You can check them in your XMLA server configuration
+1. Server URL ( typically, http: or https: URL )
+2. Datasource and catalog names. You can check them in your XMLA server configuration
 
-  Connecting to the server and executing MDX are straightforward:
+Connecting to the server and executing MDX are straightforward:
 
-  require 'olap/xmla'
+```ruby
+require 'olap/xmla'
 
-  client = Olap::Xmla.client({
+client = Olap::Xmla.client({
             server: 'http://your-olap-server',
             datasource: 'your-datasource',
             catalog: 'your-catalog'})
-  response = client.request 'your-mdx-here'
+response = client.request 'your-mdx-here'
+```
 
 ### Configuration in Rails
 
-  If you are using this gem in Rails application, which uses just single OLAP data source,
-  you can simplify the code by pre-configuring the XMLA connection.
+If you are using this gem in Rails application, which uses just single OLAP data source,
+you can simplify the code by pre-configuring the XMLA connection.
 
-  Create a file olap.rb in config/initializers directory with the following content:
+Create a file olap.rb in config/initializers directory with the following content:
 
-  Olap::Xmla.default_options= { server: 'http://your-olap-server',
+```ruby
+Olap::Xmla.default_options= { server: 'http://your-olap-server',
                                 datasource: 'your-datasource',
                                 catalog: 'your-catalog'}
+```
 
-  Then in Rails application code you can simply do:
+Then in Rails application code you can simply do:
 
-  response = Olap::Xmla.client.request 'your-mdx-here'
+```ruby
+response = Olap::Xmla.client.request 'your-mdx-here'
+```
 
 ### Querying MDX
 
-  The gem does not parse MDX, just passes it to XMLA server.
+The gem does not parse MDX, just passes it to XMLA server.
 
-  However, it can do substituting parameters in the query:
+However, it can do substituting parameters in the query:
 
-  MDX_QUERY = 'SET [~ROWS_Date] AS {[DateTime].[Date].[Date].[%DATE%]}'
+```ruby
+MDX_QUERY = 'SET [~ROWS_Date] AS {[DateTime].[Date].[Date].[%DATE%]}'
 
-  Olap::Xmla.client.request MDX_QUERY, {'%DATE%' => '20150530'}
+Olap::Xmla.client.request MDX_QUERY, {'%DATE%' => '20150530'}
+```
 
-  This allows to store MDX queries in constants, while execute them with dynamic parameters.
-  Note, that you should never use these parameters directly from Rails request, as
-  this may create security breach!
+This allows to store MDX queries in constants, while execute them with dynamic parameters.
+Note, that you should never use these parameters directly from Rails request, as
+this may create security breach!
 
 ### Using response on Query
 
 
-  You may use the response to render the results to user, or post-process it to analyse the data
-  The following methods can be used to request the meta-data and data from the response:
+You may use the response to render the results to user, or post-process it to analyse the data
+The following methods can be used to request the meta-data and data from the response:
 
-  response = client.request(mdx)
-
-
-
+```ruby
+response = client.request(mdx)
 
 
+# Meta - data of the response
+response.measures  #  array of the columns definitions ( :name / :caption )
+response.dimensions # array of the rows definitions ( :name )
+
+# Response data
+response.rows # rows of the response
+response.to_hash # response as a hash
+response.column_values(column_num) # just one column of the response
+
+```
 
 ## Contributing
 
