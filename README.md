@@ -130,7 +130,7 @@ and in the action you use iteration over the response as:
     <% end %>
   </tbody>
 </table>
-```ruby
+```
 
 Have fun!
 
