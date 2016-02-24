@@ -103,14 +103,16 @@ response.column_values(column_num) # just one column of the response
 
 Typically, the request should be done in controller action, as simple as:
 
+OlapController.erb
 ```ruby
 def index
 @response = Olap::Xmla.client.request 'WITH SET ... your mdx goes here';
 %>
 ```
 
-and in the action you use iteration over the response as:
+and in the HTML Erb view you use iteration over the response as:
 
+index.html.erb
 ```ruby
 <table>
   <thead><tr>
