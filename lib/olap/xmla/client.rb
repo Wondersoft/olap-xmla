@@ -45,11 +45,12 @@ class Olap::Xmla::Client
   def request mdx_request, parameters = {}
 
     mdx = mdx_request.clone
-    puts mdx if @verbose
 
     parameters.each{|k,v|
       mdx.gsub!(k,v)
     }
+
+    puts mdx if @verbose
 
     ops = client.operation('Execute')
     p = { 'wsdl:PropertyList' => {'wsdl:DataSourceInfo' => data_source,
