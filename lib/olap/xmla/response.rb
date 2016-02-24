@@ -1,9 +1,10 @@
 class Olap::Xmla::Response
 
-  attr_reader :response
+  attr_reader :mdx, :response
 
-  def initialize response
+  def initialize response, mdx
     @response = response
+    @mdx = mdx
   end
 
   # Returns true if the response has any data

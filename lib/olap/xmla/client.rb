@@ -9,6 +9,7 @@ class Olap::Xmla::Client
 
     @catalog = catalog
     @data_source = data_source
+    @verbose = options[:verbose]
     @client = Savon.client do
       endpoint server
       namespace "urn:schemas-microsoft-com:xml-analysis"
@@ -44,6 +45,7 @@ class Olap::Xmla::Client
   def request mdx_request, parameters = {}
 
     mdx = mdx_request.clone
+    puts mdx if @verbose
 
     parameters.each{|k,v|
       mdx.gsub!(k,v)
@@ -62,7 +64,7 @@ class Olap::Xmla::Client
       raise "Error executing #{mdx} in #{catalog} #{data_source}: #{r.http_error} #{r.soap_fault}"
     end
 
-    Olap::Xmla::Response.new r.body[:execute_response][:return][:root]
+    Olap::Xmla::Response.new r.body[:execute_response][:return][:root], mdx
 
   end
 

@@ -38,6 +38,7 @@ module Olap
     #  * +:catalog+ - the name of catalog (required)
     #  * +:open_timeout+ - open timeout to connect to XMLA server, optional, default is 60 sec
     #  * +:read_timeout+ - open timeout to read data from XMLA server, optional, default is 300 sec
+    #  * +:verbose+ - if set to true, write MDX requests to console. Default is false
     #
     #
     def self.client connect_options = {}
