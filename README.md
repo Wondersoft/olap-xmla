@@ -78,7 +78,7 @@ This allows to store MDX queries in constants, while execute them with dynamic p
 Note, that you should never use these parameters directly from Rails request, as
 this may create security breach!
 
-### Using response on Query
+### Response
 
 
 You may use the response to render the results to user, or post-process it to analyse the data
@@ -98,6 +98,41 @@ response.to_hash # response as a hash
 response.column_values(column_num) # just one column of the response
 
 ```
+
+### Example: rendering a table on web page
+
+Typically, the request should be done in controller action, as simple as:
+
+```ruby
+def index
+@response = Olap::Xmla.client.request 'WITH SET ... your mdx goes here';
+%>
+```
+
+and in the action you use iteration over the response as:
+
+```ruby
+<table>
+  <thead><tr>
+        <% for dim in @response.dimensions %><th><%= dim[:name] %></th><% end %>
+        <% for m in @response.measures %><th><%= m[:caption] %></th><% end %>
+    </tr></thead>
+  <tbody>
+    <% for row in @response.rows %>
+    <tr>
+       <% for label in row[:labels] %>
+        <td><%= label[:value] %></td>
+       <% end %>
+      <% for value in row[:values] %>
+          <td><%= value[:fmt_value] || value[:value] %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+```ruby
+
+Have fun!
 
 ## Contributing
 
