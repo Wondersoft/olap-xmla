@@ -31,7 +31,7 @@ class Olap::Xmla::Response
   # *  +:name+  the name of dimension
   #
   def dimensions
-    response[:olap_info][:axes_info][:axis_info][1][:hierarchy_info].collect{|m|
+    [response[:olap_info][:axes_info][:axis_info][1][:hierarchy_info]].flatten.collect{|m|
       {
           name: m[:@name]
       }
