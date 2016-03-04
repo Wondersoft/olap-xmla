@@ -18,7 +18,7 @@ class Olap::Xmla::Response
   # *  +:caption+ display name of measure
   #
   def measures
-    response[:axes][:axis][0][:tuples][:tuple].collect{|m|
+    [response[:axes][:axis][0][:tuples][:tuple]].flatten.collect{|m|
       {
           name: m[:member][:u_name],
           caption: m[:member][:caption]
