@@ -20,8 +20,8 @@ class Olap::Xmla::Response
   def measures
     [response[:axes][:axis][0][:tuples][:tuple]].flatten.collect{|m|
       {
-          name: m[:member][:u_name],
-          caption: m[:member][:caption]
+          name: (m[:member].kind_of?(Array) ? m[:member].collect { |x| x[:u_name]}.join(', ') : m[:member][:u_name]),
+          caption: (m[:member].kind_of?(Array) ? m[:member].collect { |x| x[:caption]}.join(', ') : m[:member][:caption]),
       }
     }
   end
@@ -76,13 +76,14 @@ class Olap::Xmla::Response
 
            colnum += 1
 
+           measure = m[:member].kind_of?(Array) ? m[:member].collect{|m| m[:u_name]} : m[:member][:u_name]
            if (cell=cells[cell_index]) && cell[:@cell_ordinal].to_i==cell_ordinal
              cell_index += 1
              cell_ordinal += 1
-             { colnum: colnum, measure: m[:member][:u_name], value: cell[:value], fmt_value: cell[:fmt_value]}
+             { colnum: colnum, measure: measure, value: cell[:value], fmt_value: cell[:fmt_value]}
            else
              cell_ordinal += 1
-             { colnum: colnum, measure: m[:member][:u_name], value: nil, fmt_value: nil}
+             { colnum: colnum, measure: measure, value: nil, fmt_value: nil}
            end
 
          }
